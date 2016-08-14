@@ -31,9 +31,18 @@ export class App extends React.Component {
         return (
             <div>
                 <button onClick={() => {
-                        this.props.stepActions.addStep({text: 'test'+ new Date().getTime()});
+                        this.props.stepActions.addStep(
+                            {
+                                visitorAction: 'CLICK',
+                                actionData: null,
+                                target: {
+                                    url: 'https://www.google.com/?sourceid=chrome-instant#newwindow=1&ts='
+                                        + new Date().getTime(),
+                                    nodePath: 'body div div div a'
+                                }
+                            });
                     }
-                }>test</button>
+                }>test add</button>
             </div>
         );
     }

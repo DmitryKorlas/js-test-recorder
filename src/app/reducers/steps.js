@@ -1,18 +1,24 @@
 import * as ActionTypes from '../constants/ActionTypes';
 
 const initialState = [{
-    text: 'Use Redux',
-    completed: false,
-    id: 0
+    id: 1,
+    visitorAction: 'CLICK',
+    actionData: null,
+    target: {
+        url: 'https://www.google.com/?sourceid=chrome-instant#newwindow=1',
+        nodePath: 'body div div div a'
+    }
 }];
 
 const actionsMap = {
     [ActionTypes.ADD_STEP](state, action) {
         let maxId = state.reduce((maxId, step) => Math.max(step.id, maxId), -1);
+        let {details} = action;
         return [{
             id: maxId + 1,
-            completed: false,
-            text: action.text
+            visitorAction: details.visitorAction,
+            actionData: details.actionData,
+            target: details.target
         }, ...state];
     },
     [ActionTypes.DELETE_STEP](state, action) {

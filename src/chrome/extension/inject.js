@@ -53,15 +53,19 @@ function findPath(node) {
 
 function attachTracer() {
     document.body.addEventListener('click', function (e) {
-        //console.log('click happened on ' + findPath(e.target));
-        console.log('chrome.extension.id', chrome.extension.id);
-        chrome.extension.sendMessage({ololo: 'trololo', path: findPath(e.target), url: document.location.href});
+        chrome.extension.sendMessage({
+            eventType: 'CLICK', // TODO move to constants
+            eventData: null,
+            target: {
+                url: document.location.href,
+                nodePath: findPath(e.target)
+            }
+        });
     });
 }
 
 
 window.addEventListener('load', () => {
-
     const injectDOM = document.createElement('div');
     injectDOM.className = 'inject-react-example';
     injectDOM.style.textAlign = 'center';

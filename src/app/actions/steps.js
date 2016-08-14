@@ -1,7 +1,7 @@
 import * as types from '../constants/ActionTypes';
 
-export function addStep(text) {
-    return {type: types.ADD_STEP, text};
+export function addStep({visitorAction, actionData, target}) {
+    return {type: types.ADD_STEP, details: {visitorAction, actionData, target}};
 }
 
 export function deleteStep(id) {
