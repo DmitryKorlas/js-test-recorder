@@ -1,0 +1,16 @@
+doctype html
+
+html
+  head
+    meta(charset='UTF-8')
+    title JS Test Recorder (Inject)
+    style.
+      html, body {
+        background-color: rgba(0,0,0,0)
+      }
+  body
+    #something
+    #root
+    if env !== 'prod'
+      script(src='chrome-extension://lmhkpmbekcpmknklioeibfkpmmfibljd/js/inject.bundle.js')
+    script(src=env == 'prod' ? '/js/recorderApp.bundle.js' : 'http://localhost:3000/js/recorderApp.bundle.js')
