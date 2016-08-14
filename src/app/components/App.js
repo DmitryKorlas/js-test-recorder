@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import * as StepActions from '../actions/steps';
 import * as RecorderActions from '../actions/recorder';
 import {RecorderControls} from './RecorderControls';
+import {StepsList} from './StepsList';
 import style from './App.css';
 
 @connect(
@@ -26,8 +27,19 @@ export class App extends React.Component {
         recorderActions: React.PropTypes.object.isRequired
     };
 
+    renderTestButton() {
+        return (
+            <div>
+                <button onClick={() => {
+                        this.props.stepActions.addStep({text: 'test'+ new Date().getTime()});
+                    }
+                }>test</button>
+            </div>
+        );
+    }
+
     render() {
-        let {recorder, recorderActions} = this.props;
+        let {recorder, recorderActions, steps, stepActions} = this.props;
 
         return (
             <div className={style.app}>
@@ -36,8 +48,12 @@ export class App extends React.Component {
                     startRecord={recorderActions.startRecord}
                     stopRecord={recorderActions.stopRecord}
                 />
+                {this.renderTestButton()}
+                <StepsList
+                    steps={steps}
+                    deleteStep={stepActions.deleteStep}
+                />
             </div>
-
         );
     }
 }
