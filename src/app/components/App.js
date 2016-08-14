@@ -34,7 +34,7 @@ export class App extends React.Component {
                         this.props.stepActions.addStep(
                             {
                                 visitorAction: 'CLICK',
-                                actionData: null,
+                                data: null,
                                 target: {
                                     url: 'https://www.google.com/?sourceid=chrome-instant#newwindow=1&ts='
                                         + new Date().getTime(),

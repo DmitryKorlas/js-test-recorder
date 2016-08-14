@@ -51,6 +51,10 @@ function findPath(node) {
     return path;
 }
 
+function isTextField(node) {
+    return (node.nodeName == 'INPUT' && ['text', 'search'].indexOf(node.type) >= 0) || node.nodeName == 'TEXTAREA';
+}
+
 function attachTracer() {
     document.body.addEventListener('click', function (e) {
         chrome.extension.sendMessage({
@@ -61,6 +65,19 @@ function attachTracer() {
                 nodePath: findPath(e.target)
             }
         });
+    });
+
+    document.body.addEventListener('change', function (e) {
+        if (isTextField(e.target)) {
+            chrome.extension.sendMessage({
+                eventType: 'EDIT', // TODO move to constants
+                eventData: {value: e.target.value},
+                target: {
+                    url: document.location.href,
+                    nodePath: findPath(e.target)
+                }
+            });
+        }
     });
 }
 

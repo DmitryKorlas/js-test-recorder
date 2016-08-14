@@ -29,7 +29,7 @@ export class StepsListItem extends React.Component {
         return (
             <tr>
                 <td>{stepNumber + 1}</td>
-                <td>{record.actionName}</td>
+                <td>{record.visitorAction}</td>
                 <td>{this.formatStepData(record)}</td>
                 <td>{this.formatStepTarget(record)}</td>
                 <td><button onClick={this.handleDeleteStepClick}>skip</button></td>

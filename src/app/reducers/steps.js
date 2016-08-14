@@ -3,7 +3,7 @@ import * as ActionTypes from '../constants/ActionTypes';
 const initialState = [{
     id: 1,
     visitorAction: 'CLICK',
-    actionData: null,
+    data: null,
     target: {
         url: 'https://www.google.com/?sourceid=chrome-instant#newwindow=1',
         nodePath: 'body div div div a'
@@ -17,7 +17,7 @@ const actionsMap = {
         return [{
             id: maxId + 1,
             visitorAction: details.visitorAction,
-            actionData: details.actionData,
+            data: details.data,
             target: details.target
         }, ...state];
     },
