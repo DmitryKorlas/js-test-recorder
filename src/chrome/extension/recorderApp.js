@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {AppContainer} from '../../app/components/AppContainer';
+import {handleMessage} from '../../app/utils/handleMessage';
 import './recorderApp.css';
 
 chrome.storage.local.get('state', obj => {
@@ -8,18 +9,14 @@ chrome.storage.local.get('state', obj => {
     const initialState = JSON.parse(state || '{}');
 
     const createStore = require('../../app/stores/configureStore');
+    let store = createStore(initialState);
+
     ReactDOM.render(
-        <AppContainer store={createStore(initialState)}/>,
+        <AppContainer store={store}/>,
         document.querySelector('#root')
     );
-});
 
-var globalCounter = 0;
-export function foo(something) {
-    var node = document.querySelector('#something');
-    node.innerHTML = node.innerHTML + (++globalCounter + JSON.stringify(something || null));
-}
-
-chrome.runtime.onMessage.addListener(function (message) {
-    foo(message);
+    chrome.runtime.onMessage.addListener(function(message) {
+        handleMessage(message, store);
+    });
 });

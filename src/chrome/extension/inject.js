@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import Dock from 'react-dock';
-console.log('exec extension code');
 
 class InjectApp extends Component {
     constructor(props) {
