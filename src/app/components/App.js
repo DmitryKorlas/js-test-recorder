@@ -5,6 +5,7 @@ import * as StepActions from '../actions/steps';
 import * as RecorderActions from '../actions/recorder';
 import {RecorderControls} from './RecorderControls';
 import {StepsList} from './StepsList';
+import {TestScriptWriter} from './TestScriptWriter';
 import style from './App.css';
 
 @connect(
@@ -60,10 +61,17 @@ export class App extends React.Component {
                     flushRecord={stepActions.deleteAllSteps}
                 />
                 {this.renderTestButton()}
-                <StepsList
-                    steps={steps}
-                    deleteStep={stepActions.deleteStep}
-                />
+                <div className={style.container}>
+                    <div className={style.left}>
+                        <StepsList
+                            steps={steps}
+                            deleteStep={stepActions.deleteStep}
+                        />
+                    </div>
+                    <div className={style.right}>
+                        <TestScriptWriter steps={steps}/>
+                    </div>
+                </div>
             </div>
         );
     }

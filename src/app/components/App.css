@@ -1,3 +1,19 @@
 .app {
   background-color: limegreen;
 }
+.container {
+  display: flex;
+  flex-flow: row;
+}
+.left {
+  border: 1px solid grey;
+  flex: 2;
+  order: 1;
+  overflow: hidden;
+}
+.right {
+  border: 1px solid grey;
+  flex: 1;
+  order: 2;
+  overflow: hidden;
+}

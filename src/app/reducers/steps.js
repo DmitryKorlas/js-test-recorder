@@ -6,7 +6,7 @@ const initialState = [{
     data: null,
     target: {
         url: 'https://www.google.com/?sourceid=chrome-instant#newwindow=1',
-        nodePath: 'body div div div a'
+        nodePath: ['bodyId1', 'divId1', 'divId2']
     }
 }];
 
