@@ -23,6 +23,9 @@ const actionsMap = {
     },
     [ActionTypes.DELETE_STEP](state, action) {
         return state.filter(step => step.id !== action.id);
+    },
+    [ActionTypes.DELETE_ALL_STEPS](_state, _action) {
+        return [];
     }
 };
 

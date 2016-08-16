@@ -90,7 +90,7 @@ function attachTracer() {
                 eventData: {value: e.target.value},
                 target: {
                     url: document.location.href,
-                    nodePath: findPath(e.target)
+                    nodePath: pathFetcher(e.target)
                 }
             });
         }

@@ -54,8 +54,10 @@ export class App extends React.Component {
             <div className={style.app}>
                 <RecorderControls
                     recorder={recorder}
+                    steps={steps}
                     startRecord={recorderActions.startRecord}
                     stopRecord={recorderActions.stopRecord}
+                    flushRecord={stepActions.deleteAllSteps}
                 />
                 {this.renderTestButton()}
                 <StepsList

@@ -7,3 +7,7 @@ export function addStep({visitorAction, data, target}) {
 export function deleteStep(id) {
     return {type: types.DELETE_STEP, id};
 }
+
+export function deleteAllSteps() {
+    return {type: types.DELETE_ALL_STEPS};
+}
