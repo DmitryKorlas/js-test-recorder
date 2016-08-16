@@ -40,15 +40,31 @@ class InjectApp extends Component {
 }
 
 
-function findPath(node) {
-    var path = '';
+function extractNodeAttributes(node) {
+    let nodeAttrs = {};
 
-    while (node) {
-        path = node.nodeName + ' ' + path;
+    if (node.hasAttributes()) {
+        nodeAttrs = [...node.attributes].reduce((acc, attribute) => {
+            acc[attribute.name] = attribute.value;
+            return acc;
+        }, {});
+    }
+
+    return {
+        nodeName: node.nodeName,
+        attributes: nodeAttrs // map of attributes
+    }
+}
+
+function pathFetcher(node) {
+    var pathChain = [];
+
+    while (node && node !== document) {
+        pathChain.push(extractNodeAttributes(node));
         node = node.parentNode;
     }
 
-    return path;
+    return pathChain;
 }
 
 function isTextField(node) {
@@ -62,7 +78,7 @@ function attachTracer() {
             eventData: null,
             target: {
                 url: document.location.href,
-                nodePath: findPath(e.target)
+                nodePath: pathFetcher(e.target)
             }
         });
     });
