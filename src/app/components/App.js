@@ -39,7 +39,7 @@ export class App extends React.Component {
                                 target: {
                                     url: 'https://www.google.com/?sourceid=chrome-instant#newwindow=1&ts='
                                         + new Date().getTime(),
-                                    nodePath: 'body div div div a'
+                                    nodePath: ['attr1', 'attr2', 'attr3']
                                 }
                             });
                     }
