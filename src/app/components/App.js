@@ -3,10 +3,15 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as StepActions from '../actions/steps';
 import * as RecorderActions from '../actions/recorder';
+import {ApplicationBar} from './ApplicationBar';
 import {RecorderControls} from './RecorderControls';
 import {StepsList} from './StepsList';
 import {TestScriptWriter} from './TestScriptWriter';
 import style from './App.css';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+injectTapEventPlugin(); // required for material UI
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 @connect(
     state => ({
@@ -52,27 +57,30 @@ export class App extends React.Component {
         let {recorder, recorderActions, steps, stepActions} = this.props;
 
         return (
-            <div className={style.app}>
-                <RecorderControls
-                    recorder={recorder}
-                    steps={steps}
-                    startRecord={recorderActions.startRecord}
-                    stopRecord={recorderActions.stopRecord}
-                    flushRecord={stepActions.deleteAllSteps}
-                />
-                {this.renderTestButton()}
-                <div className={style.container}>
-                    <div className={style.left}>
-                        <StepsList
-                            steps={steps}
-                            deleteStep={stepActions.deleteStep}
-                        />
-                    </div>
-                    <div className={style.right}>
-                        <TestScriptWriter steps={steps}/>
+            <MuiThemeProvider>
+                <div className={style.app}>
+                    <ApplicationBar/>
+                    <RecorderControls
+                        recorder={recorder}
+                        steps={steps}
+                        startRecord={recorderActions.startRecord}
+                        stopRecord={recorderActions.stopRecord}
+                        flushRecord={stepActions.deleteAllSteps}
+                    />
+                    {this.renderTestButton()}
+                    <div className={style.container}>
+                        <div className={style.left}>
+                            <StepsList
+                                steps={steps}
+                                deleteStep={stepActions.deleteStep}
+                            />
+                        </div>
+                        <div className={style.right}>
+                            <TestScriptWriter steps={steps}/>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </MuiThemeProvider>
         );
     }
 }
