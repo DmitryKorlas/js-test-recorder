@@ -9,6 +9,7 @@ import {StepsList} from './StepsList';
 import {TestScriptWriter} from './TestScriptWriter';
 import style from './App.css';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import {Grid, Row, Col} from 'react-flexbox-grid/lib/index';
 
 injectTapEventPlugin(); // required for material UI
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -68,17 +69,19 @@ export class App extends React.Component {
                         flushRecord={stepActions.deleteAllSteps}
                     />
                     {this.renderTestButton()}
-                    <div className={style.container}>
-                        <div className={style.left}>
-                            <StepsList
-                                steps={steps}
-                                deleteStep={stepActions.deleteStep}
-                            />
-                        </div>
-                        <div className={style.right}>
-                            <TestScriptWriter steps={steps}/>
-                        </div>
-                    </div>
+                    <Grid>
+                        <Row>
+                            <Col xs={4}>
+                                <StepsList
+                                    steps={steps}
+                                    deleteStep={stepActions.deleteStep}
+                                />
+                            </Col>
+                            <Col xs={8}>
+                                <TestScriptWriter steps={steps}/>
+                            </Col>
+                        </Row>
+                    </Grid>
                 </div>
             </MuiThemeProvider>
         );
