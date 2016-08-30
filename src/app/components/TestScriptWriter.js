@@ -1,6 +1,9 @@
 import React from 'react';
 import * as visitorEvents from '../constants/VisitorEvents';
 
+const bracketOpen = '&#123;';
+const bracketClose = '&#125;';
+
 export class TestScriptWriter extends React.Component {
     static propTypes = {
         steps: React.PropTypes.array.isRequired
@@ -24,7 +27,13 @@ export class TestScriptWriter extends React.Component {
                stepUI = (
                    <div key={index}>
                        <span>{index+1} <strong>click</strong></span>
-                       {step.target.nodePath.join('::')}
+                       <pre>
+                           <code>
+                               casper.then(function() &#123;
+                                    this.click('{step.target.nodePath.join('::')}');
+                               &#125;
+                           </code>
+                       </pre>
                    </div>
                );
             break;

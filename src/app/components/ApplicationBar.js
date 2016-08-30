@@ -1,15 +1,20 @@
 import React from 'react';
-import AppBar from 'material-ui/AppBar';
-
 
 export class ApplicationBar extends React.Component {
 
     render() {
         return (
-            <AppBar
-                title="JS Test Recorder"
-                showMenuIconButton={false}
-            />
+            <nav>
+                <div className="nav-wrapper orange lighten-2 ">
+                    <span className="brand-logo">
+                        JS Test Recorder
+                    </span>
+
+                    <ul className="right hide-on-med-and-down">
+                        <li>version 1.0</li>
+                    </ul>
+                </div>
+            </nav>
         );
     }
 }

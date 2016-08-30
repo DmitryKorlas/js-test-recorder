@@ -1,23 +1,9 @@
 import React from 'react';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import IconButton from 'material-ui/IconButton';
-import * as Icons from 'material-ui/svg-icons/index';
-
-import {red500} from 'material-ui/styles/colors'
-import FlatButton from 'material-ui/FlatButton';
-
-const styles = { // TODO move to css
-    smallIcon: {
-        width: 36,
-        height: 36,
-    },
-    small: {
-        width: 72,
-        height: 72,
-        padding: 16,
-        marginTop: -8
-    }
-};
+import {Grid, Row, Col} from 'react-flexbox-grid/lib/index';
+import {Button} from './Button';
+import {Icon} from './Icon';
+import classnames from 'classnames';
+import style from './RecorderControls.pcss';
 
 export class RecorderControls extends React.Component {
     static propTypes = {
@@ -36,43 +22,43 @@ export class RecorderControls extends React.Component {
             : startRecord;
 
         let tooltipText = isRecordingInProgress ? 'Press to stop record' : 'Press to start record';
-
-        let icon = isRecordingInProgress
-            ? <Icons.AvStop color={red500}/>
-            : <Icons.AvFiberManualRecord color={red500}/>;
+        let icon = isRecordingInProgress ? 'stop' : 'record';
 
         return (
-            <IconButton onClick={action}
-                        iconStyle={styles.smallIcon}
-                        style={styles.small}
-                        tooltipPosition="bottom-right"
-                        tooltip={tooltipText}>
-                {icon}
-            </IconButton>
+            <Button className={style['start-stop-button']} iconOnly title={tooltipText} onClick={action}><Icon name={icon}></Icon></Button>
+
         );
     }
 
     renderFlushButton() {
         return (
-            <FlatButton label="Flush"
+            <Button
+                flat
                 onClick={this.props.flushRecord}
-                disabled={this.props.steps.length === 0}/>
+                disabled={this.props.steps.length === 0}>
+                Flush
+            </Button>
         );
     }
 
     render() {
         let text = this.props.recorder.isRecordingInProgress ? 'Recording in progress' : '';
         return (
-            <Toolbar>
-                <ToolbarGroup firstChild={true}>
-                    {this.renderStartStopButton()}
-                    <ToolbarSeparator />
-                    {this.renderFlushButton()}
-                </ToolbarGroup>
-                <ToolbarGroup>
-                    <ToolbarTitle text={text} style={{color: red500}}/>
-                </ToolbarGroup>
-            </Toolbar>
+            <div className={classnames([style['recorder-controls']], 'z-depth-1')}>
+                <Row middle="xs" start="xs">
+                    <Col xs>
+                        {this.renderStartStopButton()}
+                        {this.renderFlushButton()}
+                    </Col>
+                    <Col xs>
+                        <Row end="xs" >
+                            <Col xs={12}>
+                                {text}
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </div>
         );
     }
 }

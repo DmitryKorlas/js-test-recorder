@@ -50,14 +50,30 @@ const baseDevConfig = () => ({
             query: {
                 presets: ['react-hmre']
             }
-        }, {
-            test: /\.css$/,
-            loaders: [
-                'style',
-                'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-                'postcss'
-            ]
-        }]
+        },
+            {
+                test: /(\.css|\.scss)$/,
+                include: /(node_modules\/(materialize-css|mdi))/,
+                loader: 'style!css?sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap'
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg|eot|woff|ttf|svg|woff2)(\?[a-z0-9=\.]+)?$/,
+                include: /(node_modules\/(materialize-css|mdi))/,
+                loader: 'url-loader?limit=100000'
+            },
+            {
+                test: /\.p?css$/,
+                loaders: [
+                    'style',
+                    'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+                    'postcss'
+                ]
+            }
+
+        ]
+    },
+    postcss: function () {
+        return [require('precss')];
     }
 });
 

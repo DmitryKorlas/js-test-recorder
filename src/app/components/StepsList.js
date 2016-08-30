@@ -8,33 +8,7 @@ export class StepsList extends React.Component {
     };
 
     renderSteps(listSteps) {
-        let rows = listSteps.map(::this.renderStep);
-        return (
-            <table>
-                <thead>
-                    <tr>
-                        <th>
-                            #
-                        </th>
-                        <th>
-                            Action
-                        </th>
-                        <th>
-                            Data
-                        </th>
-                        <th>
-                            Target
-                        </th>
-                        <th>
-
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {rows}
-                </tbody>
-            </table>
-        )
+        return listSteps.map(::this.renderStep);
     }
 
     renderStep(step, index) {
@@ -51,7 +25,6 @@ export class StepsList extends React.Component {
         let {steps} = this.props;
         return (
             <div>
-                <div>StepsList</div>
                 {steps.length > 0 ? this.renderSteps(steps) : this.renderEmptyState()}
             </div>
         );
