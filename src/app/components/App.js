@@ -77,7 +77,7 @@ export class App extends React.Component {
                             </Col>
                         </Row>
                     </Grid>
-                    <div>{'a b c d '.repeat(10000)}</div>
+
                 </StickyContainer>
             </div>
         );

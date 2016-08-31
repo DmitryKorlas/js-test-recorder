@@ -14,12 +14,12 @@ const actionsMap = {
     [ActionTypes.ADD_STEP](state, action) {
         let maxId = state.reduce((maxId, step) => Math.max(step.id, maxId), -1);
         let {details} = action;
-        return [{
+        return [...state, {
             id: maxId + 1,
             visitorAction: details.visitorAction,
             data: details.data,
             target: details.target
-        }, ...state];
+        }];
     },
     [ActionTypes.DELETE_STEP](state, action) {
         return state.filter(step => step.id !== action.id);

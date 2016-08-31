@@ -1,8 +1,9 @@
 import React from 'react';
 import * as visitorEvents from '../constants/VisitorEvents';
 
-const bracketOpen = '&#123;';
-const bracketClose = '&#125;';
+import * as highlightJS from 'highlight.js';
+import * as jsBbeautify from 'js-beautify';
+import highlightJSStyles from 'highlight.js/styles/github.css';
 
 export class TestScriptWriter extends React.Component {
     static propTypes = {
@@ -10,53 +11,46 @@ export class TestScriptWriter extends React.Component {
     };
 
     renderEmptyState() {
-        return (
-            <p>nothing there</p>
-        );
+        return null;
     }
 
     renderSteps(listSteps) {
-        return listSteps.map(::this.renderStep);
+        let code = listSteps.map(::this.renderStepText).join('');
+        // TODO format delegate it to WebWorker
+        let formattedCode = code;
 
+        formattedCode = jsBbeautify.js_beautify(code);
+        formattedCode = highlightJS.highlight('javascript', formattedCode, true).value;
+        return (
+            <div>
+                <h4 className="header">Output:</h4>
+                <pre><code dangerouslySetInnerHTML={{__html: formattedCode}}></code></pre>
+            </div>
+        );
     }
 
-    renderStep(step, index) {
-        let stepUI;
+    renderStepText(step, index) {
+        let stepOutput = `//step ${(index+1)}\n`;
         switch (step.visitorAction) {
             case visitorEvents.CLICK:
-               stepUI = (
-                   <div key={index}>
-                       <span>{index+1} <strong>click</strong></span>
-                       <pre>
-                           <code>
-                               casper.then(function() &#123;
-                                    this.click('{step.target.nodePath.join('::')}');
-                               &#125;
-                           </code>
-                       </pre>
-                   </div>
-               );
-            break;
-            case visitorEvents.EDIT:
-                stepUI = (
-                    <div key={index}>
-                        <span>{index+1} <strong>set text {step.data.value}</strong> </span>
-                        {step.target.nodePath.join('::')}
-                    </div>
-                );
+                stepOutput += `casper.then(function() {;
+                                    this.click('${(step.target.nodePath.join('::'))}');
+                               });\n`;
                 break;
-            default:
-                stepUI = null;
-            break;
+            case visitorEvents.EDIT:
+                stepOutput += `casper.then(function() {;
+                                    this.editMe('{step.target.nodePath.join('::')}');
+                               });\n`;
+                break;
         }
-        return stepUI;
+        return stepOutput;
     }
 
     render() {
         let {steps} = this.props;
         return (
             <div>
-                <div>Output:</div>
+
                 {steps.length > 0 ? this.renderSteps(steps) : this.renderEmptyState()}
             </div>
         );

@@ -44,13 +44,13 @@ const baseDevConfig = () => ({
     },
     module: {
         loaders: [{
-            test: /\.js$/,
-            loader: 'babel',
-            exclude: /node_modules/,
-            query: {
-                presets: ['react-hmre']
-            }
-        },
+                test: /\.js$/,
+                loader: 'babel',
+                exclude: /node_modules/,
+                query: {
+                    presets: ['react-hmre']
+                }
+            },
             {
                 test: /(\.css|\.scss)$/,
                 include: /(node_modules\/(materialize-css|mdi))/,
@@ -62,14 +62,22 @@ const baseDevConfig = () => ({
                 loader: 'url-loader?limit=100000'
             },
             {
+                test: /\.css$/,
+                include: /(node_modules\/highlight\.js)/,
+                loaders: [
+                    'style',
+                    'css?sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+                ]
+            },
+            {
                 test: /\.p?css$/,
+                exclude: /(node_modules\/highlight\.js)/,
                 loaders: [
                     'style',
                     'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
                     'postcss'
                 ]
             }
-
         ]
     },
     postcss: function () {

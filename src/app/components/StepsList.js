@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import styles from './StepsList.pcss';
 
 export class StepsList extends React.Component {
+
     static propTypes = {
         steps: React.PropTypes.array.isRequired,
         deleteStep: React.PropTypes.func // opt

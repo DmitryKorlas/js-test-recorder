@@ -118,7 +118,7 @@ export class StepsListItem extends React.Component {
                                     {this.formatStepData(record)}
                                 </p>
                                 <h6>Target</h6>
-                                <p>
+                                <p>j&
                                     {this.formatStepTarget(record)}
                                 </p>
                             </div>

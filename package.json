@@ -68,6 +68,8 @@
     "bluebird": "^3.4.1",
     "classnames": "^2.2.5",
     "flexboxgrid": "^6.3.1",
+    "highlight.js": "^9.6.0",
+    "js-beautify": "^1.6.4",
     "lodash": "^4.15.0",
     "material-ui": "^0.15.4",
     "materialize-css": "^0.97.7",
@@ -86,6 +88,7 @@
     "react-tap-event-plugin": "^1.0.0",
     "react-toolbox": "^1.1.2",
     "redux": "^3.5.2",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "try-thread-sleep": "^1.0.0"
   }
 }
