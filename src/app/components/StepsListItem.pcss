@@ -1,3 +1,5 @@
+@import "./palette.pcss";
+
 .steps-list-item {
     //border: 1px solid green;
     background: #fff;
@@ -11,25 +13,34 @@
     }
     .brief-line {
         font-weight: 200;
+        .text-primary {
+            font-weight: bolder;
+        }
+        .text-secondary {
+            font-weight: normal;
+        }
     }
     .data-line {
-        color: blue;
+        color: $colorBlue;
     }
     .act-click {
-        border-left: 2px solid green;
+        border-left: 2px solid $colorGreen;
     }
     .act-edit {
-        border-left: 2px solid blue;
+        border-left: 2px solid $colorBlue;
     }
     .details {
-
+        padding-top: 10px;
+    }
+    .content-box {
+        overflow: hidden;
     }
 }
 .is-expanded {
-    //background: greenyellow;
     .details {
         display: block;
     }
+
 }
 .is-collapsed {
     .details {

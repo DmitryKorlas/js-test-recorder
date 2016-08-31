@@ -33,11 +33,11 @@ export class StepsListItem extends React.Component {
     }
 
     formatStepData(step) {
-        return JSON.stringify(step.data, '  ');
+        return JSON.stringify(step.data, undefined, '  ');
     }
 
     formatStepTarget(step) {
-        return JSON.stringify(step.target, '  ');
+        return JSON.stringify(step.target, undefined, '  ');
     }
 
     formatBriefLine(step) {
@@ -56,32 +56,6 @@ export class StepsListItem extends React.Component {
         return head.concat(tail).join(',');
     }
 
-    render_old() {
-        let {record, stepNumber} = this.props;
-        let {isExpanded} = this.state;
-        let classes = classnames(style['steps-list-item'], 'collection-item', 'avatar', {
-            [style['is-expanded']]: isExpanded,
-            [style['is-collapsed']]: !isExpanded
-        });
-        return (
-            <li onClick={this.handleExpandChange}
-                 className={classes}>
-                <span className="circle green lighten-4">{stepNumber}</span>
-                <Button className="secondary-content" iconOnly onClick={this.handleDeleteStepClick}>
-                    <Icon style={{color:'black'}} name="delete"></Icon>
-                </Button>
-                <span className="title">{stepNumber+ ' :: '+ record.visitorAction}</span>
-                <p>{this.formatBriefLine(record)}</p>
-                <p>
-                    <h3>Data</h3>
-                    <p>{this.formatStepData(record)}</p>
-                    <h3>Target</h3>
-                    <p>{this.formatStepTarget(record)}</p>
-                </p>
-            </li>
-        )
-    }
-
     render() {
         let {record, stepNumber} = this.props;
         let {isExpanded} = this.state;
@@ -95,6 +69,15 @@ export class StepsListItem extends React.Component {
             [style['act-edit']]: record.visitorAction === visitorEvents.EDIT,
         });
 
+        let dataLine = null;
+        if (record.data) {
+            dataLine = (
+                <div className={style['data-line']}>
+                    {this.formatStepData(record)}
+                </div>
+            );
+        }
+
         return (
             <div className={itemClasses}>
                 <div className={itemBoxClasses}>
@@ -102,25 +85,25 @@ export class StepsListItem extends React.Component {
                         <Col xs={1} onClick={this.handleExpandChange}>
                             <div className={style['step-number']}>{stepNumber}</div>
                         </Col>
-                        <Col xs={9}>
+                        <Col xs={9} className={style['content-box']}>
                             <div className={style['brief-line']}>
-                                <strong>{record.visitorAction}</strong>
-
-                                {this.formatBriefLine(record)}
+                                <span className={style['text-primary']}>{record.visitorAction} </span>
+                                <span className={style['text-secondary']}>{this.formatBriefLine(record)}</span>
                             </div>
-                            <div className={style['data-line']}>
-                                {this.formatStepData(record)}
-                            </div>
+                            {dataLine}
                             <div className={style['details']}>
-                                <hr/>
                                 <h6>Data</h6>
-                                <p>
-                                    {this.formatStepData(record)}
-                                </p>
+                                <pre>
+                                    <code>
+                                        {this.formatStepData(record)}
+                                    </code>
+                                </pre>
                                 <h6>Target</h6>
-                                <p>j&
-                                    {this.formatStepTarget(record)}
-                                </p>
+                                <pre>
+                                    <code>
+                                        {this.formatStepTarget(record)}
+                                    </code>
+                                </pre>
                             </div>
                         </Col>
                         <Col xs={2}>
