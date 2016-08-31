@@ -18,7 +18,7 @@ export class Icon extends React.Component {
     };
 
     render() {
-        let {size, name} = this.props;
+        let {size, name, ...props} = this.props;
         let classes = classnames('mdi', `mdi-${name}`, {
             tiny: size === SIZE_TINY,
             small: size === SIZE_SMALL,
@@ -27,7 +27,7 @@ export class Icon extends React.Component {
         });
 
         return (
-            <i className={classes}></i>
+            <i className={classes} {...props}></i>
         );
     }
 }

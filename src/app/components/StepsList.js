@@ -1,5 +1,7 @@
 import React from 'react';
 import {StepsListItem} from './StepsListItem';
+import classnames from 'classnames';
+import styles from './StepsList.pcss';
 
 export class StepsList extends React.Component {
     static propTypes = {
@@ -8,7 +10,14 @@ export class StepsList extends React.Component {
     };
 
     renderSteps(listSteps) {
-        return listSteps.map(::this.renderStep);
+        return (
+            <div>
+                <h4 className="header">Steps</h4>
+                <div className={classnames(styles['steps-list'], 'z-depth-1')}>
+                    {listSteps.map(::this.renderStep)}
+                </div>
+            </div>
+        );
     }
 
     renderStep(step, index) {

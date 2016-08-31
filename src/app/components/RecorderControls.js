@@ -25,8 +25,13 @@ export class RecorderControls extends React.Component {
         let icon = isRecordingInProgress ? 'stop' : 'record';
 
         return (
-            <Button className={style['start-stop-button']} iconOnly title={tooltipText} onClick={action}><Icon name={icon}></Icon></Button>
-
+            <Button
+                className={style['start-stop-button']}
+                iconOnly
+                title={tooltipText}
+                onClick={action}>
+                <Icon name={icon}></Icon>
+            </Button>
         );
     }
 

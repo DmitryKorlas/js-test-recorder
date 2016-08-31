@@ -45,7 +45,7 @@ export class App extends React.Component {
             <div>
                 <StickyContainer>
                     <ApplicationBar/>
-                    <Sticky>
+                    <Sticky stickyStyle={{zIndex: 2}}>
                         <Grid>
                             <Row>
                                 <Col xs={12}>
