@@ -58,7 +58,7 @@ export class RecorderControls extends React.Component {
                     <Col xs>
                         <Row end="xs" >
                             <Col xs={12}>
-                                {text}
+                                <span className={style['status-message']}>{text}</span>
                             </Col>
                         </Row>
                     </Col>
