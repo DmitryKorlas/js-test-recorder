@@ -42,7 +42,7 @@ export class App extends React.Component {
         let {recorder, recorderActions, steps, stepActions} = this.props;
 
         return (
-            <div>
+            <div className={style.app}>
                 <StickyContainer>
                     <ApplicationBar/>
                     <Sticky stickyStyle={{zIndex: 2}}>
@@ -77,7 +77,6 @@ export class App extends React.Component {
                             </Col>
                         </Row>
                     </Grid>
-
                 </StickyContainer>
             </div>
         );
