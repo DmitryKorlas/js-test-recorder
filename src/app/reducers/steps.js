@@ -1,6 +1,6 @@
 import * as ActionTypes from '../constants/ActionTypes';
 
-const initialState = [{
+const initialState = [/*{
     id: 1,
     visitorAction: 'CLICK',
     data: null,
@@ -8,7 +8,7 @@ const initialState = [{
         url: 'https://www.google.com/?sourceid=chrome-instant#newwindow=1',
         nodePath: ['bodyId1', 'divId1', 'divId2']
     }
-}];
+}*/];
 
 const actionsMap = {
     [ActionTypes.ADD_STEP](state, action) {
