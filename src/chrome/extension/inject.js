@@ -15,9 +15,9 @@ class InjectApp extends Component {
     render() {
         return (
             <div>
-                <button onClick={this.buttonOnClick}>
+                {/*<button onClick={this.buttonOnClick}>
                     Open App
-                </button>
+                </button>*/}
                 <Dock
                     position="right"
                     dimMode="transparent"
