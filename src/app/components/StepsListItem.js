@@ -87,7 +87,7 @@ export class StepsListItem extends React.Component {
                         </Col>
                         <Col xs={9} className={style['content-box']}>
                             <div className={style['brief-line']}>
-                                <span className={style['text-primary']}>{record.visitorAction} </span>
+                                <span className={style['text-primary']}>{record.visitorAction}&nbsp;</span>
                                 <span className={style['text-secondary']}>{this.formatBriefLine(record)}</span>
                             </div>
                             {dataLine}
@@ -107,9 +107,11 @@ export class StepsListItem extends React.Component {
                             </div>
                         </Col>
                         <Col xs={2}>
-                            <Button iconOnly onClick={this.handleDeleteStepClick}>
-                                <Icon style={{color:'black'}} name="delete"></Icon>
-                            </Button>
+                            <div className={classnames(style['actions-box'], 'right-align')}>
+                                <Button iconOnly onClick={this.handleDeleteStepClick}>
+                                    <Icon style={{color:'black'}} name="delete"></Icon>
+                                </Button>
+                            </div>
                         </Col>
                     </Row>
                 </div>

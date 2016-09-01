@@ -14,7 +14,12 @@
     .brief-line {
         font-weight: 200;
         .text-primary {
-            font-weight: bolder;
+            font-weight: 800;
+            display: inline-block;
+            text-transform: lowercase;
+            &:first-letter {
+                text-transform: capitalize;
+            }
         }
         .text-secondary {
             font-weight: normal;
@@ -34,6 +39,15 @@
     }
     .content-box {
         overflow: hidden;
+    }
+    .actions-box {
+        transition: opacity .34s ease-in-out;
+        opacity: 0;
+    }
+    &:hover {
+        .actions-box {
+            opacity: 1;
+        }
     }
 }
 .is-expanded {
