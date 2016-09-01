@@ -37,9 +37,11 @@ export class TestScriptWriter extends React.Component {
                                     this.click('${(step.target.nodePath.join('::'))}');
                                });\n`;
                 break;
+
+            // TODO step.data.value is unsafe. escape it
             case visitorEvents.EDIT:
                 stepOutput += `casper.then(function() {;
-                                    this.editMe('{step.target.nodePath.join('::')}');
+                                    this.setValue('${(step.target.nodePath.join('::'))}', '${(step.data.value)}');
                                });\n`;
                 break;
         }
