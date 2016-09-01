@@ -1,6 +1,6 @@
 chrome.storage.local.get('state', (obj) => {
     let steps = obj.steps;
-    let text = '1';
+    let text = '';
     if (steps) {
         steps = JSON.parse(steps);
         const len = steps.length;
