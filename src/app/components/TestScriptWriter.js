@@ -2,7 +2,7 @@ import React from 'react';
 import * as visitorEvents from '../constants/VisitorEvents';
 
 import * as highlightJS from 'highlight.js';
-import * as jsBbeautify from 'js-beautify';
+import * as jsBeautify from 'js-beautify';
 import highlightJSStyles from 'highlight.js/styles/github.css';
 
 export class TestScriptWriter extends React.Component {
@@ -19,7 +19,7 @@ export class TestScriptWriter extends React.Component {
         // TODO format delegate it to WebWorker
         let formattedCode = code;
 
-        formattedCode = jsBbeautify.js_beautify(code);
+        formattedCode = jsBeautify.js_beautify(code);
         formattedCode = highlightJS.highlight('javascript', formattedCode, true).value;
         return (
             <div>

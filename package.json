@@ -88,6 +88,7 @@
     "react-tap-event-plugin": "^1.0.0",
     "react-toolbox": "^1.1.2",
     "redux": "^3.5.2",
+    "redux-multi": "^0.1.12",
     "redux-thunk": "^2.1.0",
     "try-thread-sleep": "^1.0.0"
   }

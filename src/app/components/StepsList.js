@@ -15,14 +15,13 @@ export class StepsList extends React.Component {
             <div>
                 <h4 className="header">Steps</h4>
                 <div className={classnames(styles['steps-list'], 'z-depth-1')}>
-                    {listSteps.map(::this.renderStep).reverse()}
+                    {listSteps.map(::this.renderStep)}
                 </div>
             </div>
         );
     }
 
     getStepNumber(index) {
-        // return this.props.steps.length - index;
         return index + 1;
     }
 

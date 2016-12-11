@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as StepActions from '../actions/steps';
 import * as RecorderActions from '../actions/recorder';
+import * as uiActions from '../actions/ui';
 import {Grid, Row, Col} from 'react-flexbox-grid/lib/index';
 import { StickyContainer, Sticky } from 'react-sticky';
 
@@ -13,6 +14,7 @@ import materialCSS from 'materialize-css/sass/materialize.scss';
 
 import {ApplicationBar} from './ApplicationBar';
 import {RecorderControls} from './RecorderControls';
+import {ManageScrollbarToggler} from './ManageScrollbarToggler';
 import {StepsList} from './StepsList';
 import {TestScriptWriter} from './TestScriptWriter';
 
@@ -22,10 +24,12 @@ import style from './App.pcss';
     state => ({
         steps: state.steps,
         recorder: state.recorder,
+        ui: state.stickToBottom
     }),
     dispatch => ({
         stepActions: bindActionCreators(StepActions, dispatch),
         recorderActions: bindActionCreators(RecorderActions, dispatch),
+        uiActions: bindActionCreators(uiActions, dispatch),
     })
 )
 
@@ -35,16 +39,29 @@ export class App extends React.Component {
         steps: React.PropTypes.array.isRequired,
         stepActions: React.PropTypes.object.isRequired,
         recorder: React.PropTypes.object.isRequired,
-        recorderActions: React.PropTypes.object.isRequired
+        recorderActions: React.PropTypes.object.isRequired,
+        uiActions: React.PropTypes.object.isRequired
     };
 
+    componentDidMount() {
+        window.addEventListener('scroll', ::this.handleScroll);
+    }
+
+    handleScroll() {
+        let isScrolledToBottom = window.scrollY + window.innerHeight == document.body.offsetHeight;
+        if (!isScrolledToBottom) {
+            this.props.uiActions.resetStickToBottom();
+        }
+    }
+
     render() {
-        let {recorder, recorderActions, steps, stepActions} = this.props;
+        let {recorder, recorderActions, steps, stepActions, uiActions} = this.props;
 
         return (
             <div className={style.app}>
                 <StickyContainer>
                     <ApplicationBar/>
+
                     <Sticky stickyStyle={{zIndex: 2}}>
                         <Grid>
                             <Row>
@@ -64,6 +81,7 @@ export class App extends React.Component {
                             </Row>
                         </Grid>
                     </Sticky>
+
                     <Grid>
                         <Row>
                             <Col xs={4}>
@@ -78,6 +96,7 @@ export class App extends React.Component {
                         </Row>
                     </Grid>
                 </StickyContainer>
+                <ManageScrollbarToggler stickToBottom={uiActions.stickToBottom}/>
             </div>
         );
     }
