@@ -83,6 +83,7 @@
     "react-dom": "^15.3.0",
     "react-flexbox-grid": "^0.10.2",
     "react-ink": "^5.1.1",
+    "react-overlays": "^0.6.10",
     "react-redux": "^4.4.5",
     "react-sticky": "^5.0.5",
     "react-tap-event-plugin": "^1.0.0",

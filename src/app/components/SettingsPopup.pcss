@@ -1,0 +1,46 @@
+@import "./palette.pcss";
+
+.modal {
+    position: fixed;
+    zIndex: 1040;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.backdrop {
+    position: fixed;
+    z-index: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #e5e5e5;
+    opacity: 0.75
+}
+
+.modal-body {
+    $top: 50%;
+    $left: 50%;
+
+    position: absolute;
+    width: 400px;
+    top: $top;
+    left: $left;
+    transform: translate(-$top, -$left);
+    outline: none;
+    background-color: white;
+
+    padding: 10px 20px 10px 20px;
+}
+
+.modal-footer {
+    padding-top: 20px;
+}
+
+.section {
+    padding-top: 5px;
+    margin-top: 15px;
+    border-top: 1px solid #e5e5e5;
+}

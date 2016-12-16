@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import * as StepActions from '../actions/steps';
 import * as RecorderActions from '../actions/recorder';
 import * as uiActions from '../actions/ui';
+import * as SettingsActions from '../actions/settings';
 import {Grid, Row, Col} from 'react-flexbox-grid/lib/index';
 import { StickyContainer, Sticky } from 'react-sticky';
 
@@ -17,6 +18,8 @@ import {RecorderControls} from './RecorderControls';
 import {ManageScrollbarToggler} from './ManageScrollbarToggler';
 import {StepsList} from './StepsList';
 import {TestScriptWriter} from './TestScriptWriter';
+import {PhantomJSWriter} from './PhantomJSWriter';
+import {SettingsPopup} from './SettingsPopup';
 
 import style from './App.pcss';
 
@@ -24,12 +27,14 @@ import style from './App.pcss';
     state => ({
         steps: state.steps,
         recorder: state.recorder,
-        ui: state.stickToBottom
+        stickToBottom: state.stickToBottom,
+        settings: state.settings
     }),
     dispatch => ({
         stepActions: bindActionCreators(StepActions, dispatch),
         recorderActions: bindActionCreators(RecorderActions, dispatch),
         uiActions: bindActionCreators(uiActions, dispatch),
+        settingsActions: bindActionCreators(SettingsActions, dispatch),
     })
 )
 
@@ -40,7 +45,9 @@ export class App extends React.Component {
         stepActions: React.PropTypes.object.isRequired,
         recorder: React.PropTypes.object.isRequired,
         recorderActions: React.PropTypes.object.isRequired,
-        uiActions: React.PropTypes.object.isRequired
+        uiActions: React.PropTypes.object.isRequired,
+        settingsActions: React.PropTypes.object.isRequired,
+        settings: React.PropTypes.object.isRequired
     };
 
     componentDidMount() {
@@ -54,13 +61,44 @@ export class App extends React.Component {
         }
     }
 
+    renderSettingsPopup() {
+        let {uiActions, settings, settingsActions} = this.props;
+        let popup = null;
+        if (settings.isPopupShown) {
+            popup = (
+                <SettingsPopup
+                    show
+                    onSave={(data) => {
+                        settingsActions.saveSettings(data);
+                        uiActions.hideSettingsPopup();
+                    }}
+                    onClose={uiActions.hideSettingsPopup}
+                    availableFrameworks={settings.availableFrameworks}
+                    currentFrameworkId={settings.currentFrameworkId}
+                />
+            );
+        }
+        return popup;
+    }
+
+    renderScriptWriter() {
+        let {settings, steps} = this.props;
+
+        // todo constants, replace to switch
+        if (settings.currentFrameworkId === 'casperJS') {
+            return <TestScriptWriter steps={steps}/>
+        } else {
+            return <PhantomJSWriter steps={steps}/>
+        }
+    }
+
     render() {
         let {recorder, recorderActions, steps, stepActions, uiActions} = this.props;
 
         return (
             <div className={style.app}>
                 <StickyContainer>
-                    <ApplicationBar/>
+                    <ApplicationBar onSettingsClick={uiActions.showSettingsPopup}/>
 
                     <Sticky stickyStyle={{zIndex: 2}}>
                         <Grid>
@@ -91,12 +129,14 @@ export class App extends React.Component {
                                 />
                             </Col>
                             <Col xs={8}>
-                                <TestScriptWriter steps={steps}/>
+                                {this.renderScriptWriter()}
                             </Col>
                         </Row>
+
                     </Grid>
                 </StickyContainer>
                 <ManageScrollbarToggler stickToBottom={uiActions.stickToBottom}/>
+                {this.renderSettingsPopup()}
             </div>
         );
     }

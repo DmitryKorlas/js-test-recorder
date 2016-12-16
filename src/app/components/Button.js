@@ -9,6 +9,7 @@ export class Button extends React.Component {
         flat: React.PropTypes.bool, // opt
         floating: React.PropTypes.bool, // opt
         disabled: React.PropTypes.bool, // opt
+        primary: React.PropTypes.bool, // opt
         iconOnly: React.PropTypes.bool // opt
     };
 
@@ -16,14 +17,16 @@ export class Button extends React.Component {
         flat: false,
         floating: false,
         disabled: false,
-        iconOnly: false
+        iconOnly: false,
+        primary: false
     };
 
     render() {
-        let {flat, disabled, floating, iconOnly, className,  ...props} = this.props;
+        let {flat, disabled, floating, iconOnly, className, primary, ...props} = this.props;
         let classes = classnames('btn', 'waves-effect', 'waves-light', className, {
             'btn-flat': flat,
             'btn-floating': floating,
+            'blue-text': primary,
             disabled: disabled,
             [style['icon-only']]: iconOnly
         });
