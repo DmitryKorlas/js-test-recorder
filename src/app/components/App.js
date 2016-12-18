@@ -17,8 +17,8 @@ import {ApplicationBar} from './ApplicationBar';
 import {RecorderControls} from './RecorderControls';
 import {ManageScrollbarToggler} from './ManageScrollbarToggler';
 import {StepsList} from './StepsList';
-import {TestScriptWriter} from './TestScriptWriter';
-import {PhantomJSWriter} from './PhantomJSWriter';
+import {CasperJSWriter} from './scriptWriter/CasperJSWriter';
+import {PhantomJSWriter} from './scriptWriter/PhantomJSWriter';
 import {SettingsPopup} from './SettingsPopup';
 
 import style from './App.pcss';
@@ -86,7 +86,7 @@ export class App extends React.Component {
 
         // todo constants, replace to switch
         if (settings.currentFrameworkId === 'casperJS') {
-            return <TestScriptWriter steps={steps}/>
+            return <CasperJSWriter steps={steps}/>
         } else {
             return <PhantomJSWriter steps={steps}/>
         }
