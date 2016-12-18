@@ -94,33 +94,44 @@ export class PhantomJSWriter extends TestScriptWriter {
         `;
     }
 
+    formatWaitForSelectorClause(selector) {
+        return `.then(function() {
+                    return waitForSelector('${selector}');
+                })\n`;
+    }
+
     renderStepText(step, index) {
-        let stepOutput = `//step ${(index+1)}`;
+        let stepOutput = `// step ${(index+1)}\n`;
         let selector = this.getDOMNodeSelector(step);
         switch (step.visitorAction) {
             case visitorEvents.CLICK:
-                stepOutput += `
-                .then(function() {
-                    return waitForSelector('${selector}');
-                })
-                .then(function() {
-                    page.evaluate(function() {
-                        document.querySelector('${selector}').click();
-                   });
-                })\n`;
+                stepOutput += this.formatWaitForSelectorClause(selector);
+                stepOutput += `.then(function() {
+                        page.evaluate(function() {
+                            document.querySelector('${selector}').click();
+                       });
+                    })\n`;
                 break;
 
             // TODO step.data.value is unsafe. escape it
-            case visitorEvents.EDIT:
-                stepOutput += `
-                .then(function() {
-                    return waitForSelector('${selector}');
-                })
-                .then(function() {
-                    page.evaluate(function() {
-                        document.querySelector('${selector}').value = '${step.data.value}';
-                    });
-                })\n`;
+            case visitorEvents.MUTATE_TEXT_FIELD:
+                stepOutput += this.formatWaitForSelectorClause(selector);
+                stepOutput += `.then(function() {
+                        page.evaluate(function() {
+                            document.querySelector('${selector}').value = '${step.data.value}';
+                        });
+                    })\n`;
+                break;
+            case visitorEvents.MUTATE_DROPDOWN:
+                stepOutput += this.formatWaitForSelectorClause(selector);
+                stepOutput += `.then(function() {
+                        page.evaluate(function() {
+                            document.querySelector('${selector}').selectedIndex = '${step.data.selectedIndex}';
+                        });
+                    })\n`;
+                break;
+            default:
+                stepOutput += `// unknown step action ${step.visitorAction}\n`;
                 break;
         }
         return stepOutput;

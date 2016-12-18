@@ -19,15 +19,13 @@ export class CasperJSWriter extends TestScriptWriter {
     }
 
     formatWaitForSelectorClause(selector) {
-        return `
-            casper.then(function() {
+        return `casper.then(function() {
                 this.waitForSelector('${selector}')
-            });
-        `;
+            });\n`;
     }
 
     renderStepText(step, index) {
-        let stepOutput = `//step ${(index+1)}`;
+        let stepOutput = `// step ${(index+1)}\n`;
         let selector = this.getDOMNodeSelector(step);
 
         switch (step.visitorAction) {
@@ -39,13 +37,24 @@ export class CasperJSWriter extends TestScriptWriter {
                 break;
 
             // TODO step.data.value is unsafe. escape it
-            case visitorEvents.EDIT:
+            case visitorEvents.MUTATE_TEXT_FIELD:
                 stepOutput += this.formatWaitForSelectorClause(selector);
                 stepOutput += `casper.then(function() {
                                     this.evaluate(function() {
                                         document.querySelector('${selector}').value = '${step.data.value}';
                                     });
                                });\n`;
+                break;
+            case visitorEvents.MUTATE_DROPDOWN:
+                stepOutput += this.formatWaitForSelectorClause(selector);
+                stepOutput += `casper.then(function() {
+                                    this.evaluate(function() {
+                                        document.querySelector('${selector}').selectedIndex = '${step.data.selectedIndex}';
+                                    });
+                               });\n`;
+                break;
+            default:
+                stepOutput += `// unknown step action ${step.visitorAction}\n`;
                 break;
         }
         return stepOutput;

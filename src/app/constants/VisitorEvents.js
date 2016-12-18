@@ -1,2 +1,3 @@
 export const CLICK = 'CLICK';
-export const EDIT = 'EDIT';
+export const MUTATE_TEXT_FIELD = 'MUTATE_TEXT_FIELD';
+export const MUTATE_DROPDOWN = 'MUTATE_DROPDOWN';

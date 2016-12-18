@@ -56,6 +56,15 @@ export class StepsListItem extends React.Component {
         return head.concat(tail).join(',');
     }
 
+    formatActionName(actionName) {
+        let names = {
+            [visitorEvents.CLICK]: 'Click',
+            [visitorEvents.MUTATE_TEXT_FIELD]: 'Change text field',
+            [visitorEvents.MUTATE_DROPDOWN]: 'Change dropdown'
+        };
+        return names[actionName] || actionName;
+    }
+
     render() {
         let {record, stepNumber} = this.props;
         let {isExpanded} = this.state;
@@ -66,7 +75,8 @@ export class StepsListItem extends React.Component {
 
         let itemBoxClasses = classnames(style['item-box'], {
             [style['act-click']]: record.visitorAction === visitorEvents.CLICK,
-            [style['act-edit']]: record.visitorAction === visitorEvents.EDIT,
+            [style['act-edit-text-field']]: record.visitorAction === visitorEvents.MUTATE_TEXT_FIELD,
+            [style['act-edit-dropdown']]: record.visitorAction === visitorEvents.MUTATE_DROPDOWN,
         });
 
         let dataLine = null;
@@ -87,7 +97,9 @@ export class StepsListItem extends React.Component {
                         </Col>
                         <Col xs={9} className={style['content-box']}>
                             <div className={style['brief-line']}>
-                                <span className={style['text-primary']}>{record.visitorAction}&nbsp;</span>
+                                <span className={style['text-primary']}>
+                                    {this.formatActionName(record.visitorAction)}&nbsp;
+                                </span>
                                 <span className={style['text-secondary']}>{this.formatBriefLine(record)}</span>
                             </div>
                             {dataLine}

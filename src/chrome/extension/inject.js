@@ -71,6 +71,10 @@ function isTextField(node) {
     return (node.nodeName == 'INPUT' && ['text', 'search'].indexOf(node.type) >= 0) || node.nodeName == 'TEXTAREA';
 }
 
+function isSelect(node) {
+    return node.nodeName == 'SELECT';
+}
+
 function attachTracer() {
     document.body.addEventListener('click', function (e) {
         chrome.extension.sendMessage({
@@ -86,8 +90,21 @@ function attachTracer() {
     document.body.addEventListener('change', function (e) {
         if (isTextField(e.target)) {
             chrome.extension.sendMessage({
-                eventType: 'EDIT', // TODO move to constants
+                eventType: 'MUTATE_TEXT_FIELD', // TODO move to constants
                 eventData: {value: e.target.value},
+                target: {
+                    url: document.location.href,
+                    nodePath: pathFetcher(e.target)
+                }
+            });
+        } else if (isSelect(e.target)) {
+            chrome.extension.sendMessage({
+                eventType: 'MUTATE_DROPDOWN', // TODO move to constants
+                eventData: {
+                    value: e.target.value,
+                    selectedIndex: e.target.selectedIndex,
+                    selectedOptionText: e.target.options[e.target.selectedIndex].text
+                },
                 target: {
                     url: document.location.href,
                     nodePath: pathFetcher(e.target)

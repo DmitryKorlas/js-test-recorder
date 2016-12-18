@@ -17,7 +17,8 @@ function isAllowedPath(convertedPath) {
 export function handleMessage({eventType, eventData, target}, store) {
     switch (eventType) {
         case VisitorEvents.CLICK:
-        case VisitorEvents.EDIT:
+        case VisitorEvents.MUTATE_TEXT_FIELD:
+        case VisitorEvents.MUTATE_DROPDOWN:
             if (!store.getState().recorder.isRecordingInProgress) {
                 break;
             }
