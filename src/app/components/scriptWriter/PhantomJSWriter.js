@@ -4,12 +4,8 @@ import {TestScriptWriter} from './TestScriptWriter';
 import {extractFunctionCode, substituteImports} from '../../utils/functions';
 
 // TODO make it clearer
-const SCRIPT_HEAD = substituteImports(extractFunctionCode(scriptHead));
-
-// a source code of this func will be used as a head of generated test source code.
-// is not an executable func in context of recorder application
-function scriptHead() {
-    var Promise = '%require("bluebird")%';
+const SCRIPT_HEAD = `
+    var Promise = require("bluebird");
 
     // thanks to http://stackoverflow.com/a/19070446
     function waitFor(config) {
@@ -48,13 +44,13 @@ function scriptHead() {
         })
     }
 
-    var page = '%require("webpage").create()%';
+    var page = require("webpage").create();
     page.settings.userAgent = 'SpecialAgent';
     page.clipRect = { top: 0, left: 0, width: 1024, height: 768 };
     page.onConsoleMessage = function(msg) {
         console.log(msg);
     }
-}
+`;
 
 export class PhantomJSWriter extends TestScriptWriter {
 
