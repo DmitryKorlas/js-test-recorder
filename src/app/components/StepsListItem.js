@@ -53,7 +53,7 @@ export class StepsListItem extends React.Component {
             head = [target.nodePath[0]];
         }
 
-        return head.concat(tail).join(',');
+        return head.concat(tail).join(', ');
     }
 
     formatActionName(actionName) {
@@ -88,19 +88,22 @@ export class StepsListItem extends React.Component {
             );
         }
 
+        let briefLine = this.formatBriefLine(record);
         return (
             <div className={itemClasses}>
                 <div className={itemBoxClasses}>
                     <Row>
-                        <Col xs={1} onClick={this.handleExpandChange}>
+                        <Col xs={2} md={1} onClick={this.handleExpandChange}>
                             <div className={style['step-number']}>{stepNumber}</div>
                         </Col>
-                        <Col xs={9} className={style['content-box']}>
+                        <Col xs={8} md={9} className={style['content-box']}>
                             <div className={style['brief-line']}>
                                 <span className={style['text-primary']}>
                                     {this.formatActionName(record.visitorAction)}&nbsp;
                                 </span>
-                                <span className={style['text-secondary']}>{this.formatBriefLine(record)}</span>
+                                <span className={style['text-secondary']} title={briefLine}>
+                                    {briefLine}
+                                </span>
                             </div>
                             {dataLine}
                             <div className={style['details']}>
