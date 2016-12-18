@@ -45,7 +45,7 @@ export class TestScriptWriter extends React.Component {
 
     getDOMNodeSelector(step) {
         const attrName = 'data-test-automation-id';
-        return step.target.nodePath.map(item => {return `//[${attrName}="item"]`})
+        return step.target.nodePath.map(item => {return `*[${attrName}="${item}"]`})
             .join(' ');
     }
 
