@@ -9,6 +9,7 @@ export class SettingsPopup extends React.Component {
     static propTypes = {
         availableFrameworks: React.PropTypes.array.isRequired,
         currentFrameworkId: React.PropTypes.string,
+        showSourceOutputHeaderFooter: React.PropTypes.bool,
         show: React.PropTypes.bool,
         onClose: React.PropTypes.func,
         onSave: React.PropTypes.func
@@ -17,22 +18,33 @@ export class SettingsPopup extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            currentFrameworkId: this.props.currentFrameworkId
+            currentFrameworkId: this.props.currentFrameworkId,
+            showSourceOutputHeaderFooter: this.props.showSourceOutputHeaderFooter
         };
     }
 
     componentWillMount() {
-        this.setState({currentFrameworkId: this.props.currentFrameworkId});
+        this.setState({
+            currentFrameworkId: this.props.currentFrameworkId,
+            showSourceOutputHeaderFooter: this.props.showSourceOutputHeaderFooter
+        });
     }
 
     onChangeFramework(e) {
         this.setState({currentFrameworkId: e.target.value});
     };
 
+    onChangeHeaderFooterCheckbox(e) {
+        this.setState({showSourceOutputHeaderFooter: e.target.checked});
+    }
+
     onSave(e) {
         e.preventDefault();
         if (this.props.onSave) {
-            this.props.onSave({currentFrameworkId: this.state.currentFrameworkId});
+            this.props.onSave({
+                currentFrameworkId: this.state.currentFrameworkId,
+                showSourceOutputHeaderFooter: this.state.showSourceOutputHeaderFooter
+            });
         }
     }
 
@@ -79,17 +91,27 @@ export class SettingsPopup extends React.Component {
             >
                 <div className={classnames(styles['modal-body'], 'z-depth-2')}>
                     <h5 id='modal-label'>Settings</h5>
-                    <div className={styles['section']}>
-                        <p>Choose the preferred syntax</p>
                         <form onSubmit={::this.onSave}>
-                            {this.renderFrameworksList()}
+                            <div className={styles['section']}>
+                                <p>Choose the preferred syntax</p>
+                                {this.renderFrameworksList()}
+                            </div>
+                            <div className={styles['section']}>
+                                <p>Visualisation</p>
+                                <p>
+                                    <input type="checkbox"
+                                           id="showSourceOutputHeaderFooter"
+                                           onChange={::this.onChangeHeaderFooterCheckbox}
+                                           checked={this.state.showSourceOutputHeaderFooter} />
+                                    <label htmlFor="showSourceOutputHeaderFooter">Show header/footer code</label>
+                                </p>
+                            </div>
 
                             <div className={classnames(styles['modal-footer'], 'right-align')}>
                                 <Button flat onClick={::this.onCancelButtonClick}>Cancel</Button>
                                 <Button type='submit' flat primary>Save</Button>
                             </div>
                         </form>
-                    </div>
                 </div>
             </Modal>
         );

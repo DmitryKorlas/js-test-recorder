@@ -2,6 +2,7 @@ import * as ActionTypes from '../constants/ActionTypes';
 
 const initialState = {
     isPopupShown: false,
+    showSourceOutputHeaderFooter: true,
     availableFrameworks: [
         {
             id: 'casperJS',
@@ -23,13 +24,15 @@ const actionsMap = {
         return {...state, isPopupShown: false};
     },
     [ActionTypes.SAVE_SETTINGS](state, action) {
-        let {currentFrameworkId} = action.data;
+        let {currentFrameworkId, showSourceOutputHeaderFooter} = action.data;
+        let nextState = {...state, showSourceOutputHeaderFooter};
+
         let framework = state.availableFrameworks.find(item => item.id === currentFrameworkId);
         if (framework) {
-            return {...state, currentFrameworkId};
+            nextState.currentFrameworkId = currentFrameworkId;
         }
 
-        return state;
+        return nextState;
     }
 };
 

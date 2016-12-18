@@ -75,6 +75,7 @@ export class App extends React.Component {
                     onClose={uiActions.hideSettingsPopup}
                     availableFrameworks={settings.availableFrameworks}
                     currentFrameworkId={settings.currentFrameworkId}
+                    showSourceOutputHeaderFooter={settings.showSourceOutputHeaderFooter}
                 />
             );
         }
@@ -83,12 +84,16 @@ export class App extends React.Component {
 
     renderScriptWriter() {
         let {settings, steps} = this.props;
+        let props = {
+            steps,
+            showHeaderFooter: settings.showSourceOutputHeaderFooter
+        };
 
         // todo constants, replace to switch
         if (settings.currentFrameworkId === 'casperJS') {
-            return <CasperJSWriter steps={steps}/>
+            return <CasperJSWriter {...props}/>
         } else {
-            return <PhantomJSWriter steps={steps}/>
+            return <PhantomJSWriter {...props}/>
         }
     }
 
