@@ -75,6 +75,7 @@ export class App extends React.Component {
                     onClose={uiActions.hideSettingsPopup}
                     availableFrameworks={settings.availableFrameworks}
                     currentFrameworkId={settings.currentFrameworkId}
+                    useChainedAttrs={settings.useChainedAttrs}
                     attrNameForCapture={settings.attrNameForCapture}
                     showSourceOutputHeaderFooter={settings.showSourceOutputHeaderFooter}
                 />
@@ -88,6 +89,7 @@ export class App extends React.Component {
         let props = {
             steps,
             attributeName: settings.attrNameForCapture,
+            useChainedAttrs: settings.useChainedAttrs,
             showHeaderFooter: settings.showSourceOutputHeaderFooter
         };
 
@@ -100,7 +102,7 @@ export class App extends React.Component {
     }
 
     render() {
-        let {recorder, recorderActions, steps, stepActions, uiActions} = this.props;
+        let {recorder, recorderActions, steps, stepActions, uiActions, settings} = this.props;
 
         return (
             <div className={style.app}>
@@ -132,6 +134,7 @@ export class App extends React.Component {
                             <Col xs={4}>
                                 <StepsList
                                     steps={steps}
+                                    useChainedAttrs={settings.useChainedAttrs}
                                     deleteStep={stepActions.deleteStep}
                                 />
                             </Col>

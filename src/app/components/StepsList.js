@@ -7,7 +7,12 @@ export class StepsList extends React.Component {
 
     static propTypes = {
         steps: React.PropTypes.array.isRequired,
+        useChainedAttrs: React.PropTypes.bool,
         deleteStep: React.PropTypes.func // opt
+    };
+
+    static defaultProps = {
+        useChainedAttrs: true
     };
 
     renderSteps(listSteps) {
@@ -27,7 +32,14 @@ export class StepsList extends React.Component {
 
     renderStep(step, index) {
         let stepNumber = this.getStepNumber(index);
-        return <StepsListItem key={stepNumber} record={step} stepNumber={stepNumber} deleteStep={this.props.deleteStep} />;
+        return (
+            <StepsListItem
+                key={stepNumber}
+                record={step}
+                stepNumber={stepNumber}
+                useChainedAttrs={this.props.useChainedAttrs}
+                deleteStep={this.props.deleteStep} />
+        );
     }
 
     renderEmptyState() {

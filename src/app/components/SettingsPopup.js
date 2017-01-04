@@ -10,6 +10,7 @@ export class SettingsPopup extends React.Component {
         availableFrameworks: React.PropTypes.array.isRequired,
         currentFrameworkId: React.PropTypes.string,
         showSourceOutputHeaderFooter: React.PropTypes.bool,
+        useChainedAttrs: React.PropTypes.bool,
         attrNameForCapture: React.PropTypes.string,
         show: React.PropTypes.bool,
         onClose: React.PropTypes.func,
@@ -21,6 +22,7 @@ export class SettingsPopup extends React.Component {
         this.state = {
             currentFrameworkId: this.props.currentFrameworkId,
             showSourceOutputHeaderFooter: this.props.showSourceOutputHeaderFooter,
+            useChainedAttrs: this.props.useChainedAttrs,
             attrNameForCapture: this.props.attrNameForCapture,
             errors: {}
         };
@@ -30,6 +32,7 @@ export class SettingsPopup extends React.Component {
         this.setState({
             currentFrameworkId: this.props.currentFrameworkId,
             showSourceOutputHeaderFooter: this.props.showSourceOutputHeaderFooter,
+            useChainedAttrs: this.props.useChainedAttrs,
             attrNameForCapture: this.props.attrNameForCapture
         });
     }
@@ -42,6 +45,10 @@ export class SettingsPopup extends React.Component {
         this.setState({showSourceOutputHeaderFooter: e.target.checked});
     }
 
+    onChangeUseChainedAttrs(e) {
+        this.setState({useChainedAttrs: e.target.checked});
+    }
+
     onChangeAttrNameForCapture(e) {
         this.setState({attrNameForCapture: e.target.value});
     }
@@ -51,6 +58,7 @@ export class SettingsPopup extends React.Component {
         let data = {
             currentFrameworkId: this.state.currentFrameworkId,
             showSourceOutputHeaderFooter: this.state.showSourceOutputHeaderFooter,
+            useChainedAttrs: this.state.useChainedAttrs,
             attrNameForCapture: this.state.attrNameForCapture.trim()
         };
 
@@ -102,6 +110,54 @@ export class SettingsPopup extends React.Component {
         );
     }
 
+    renderAttrNameField() {
+        return (
+            <div className="input-field col s12">
+                <input placeholder="Attribute name for capture"
+                       id="attrNameForCapture"
+                       type="text"
+                       className={classnames(
+                           {
+                               validate: true,
+                               invalid: !!this.state.errors.attrNameForCapture
+                           }
+                       )}
+                       value={this.state.attrNameForCapture}
+                       onChange={::this.onChangeAttrNameForCapture}
+                />
+                <label htmlFor="attrNameForCapture" className="active"
+                       data-error={this.state.errors.attrNameForCapture}>
+                    Attribute name for capture
+                </label>
+
+            </div>
+        );
+    }
+
+    renderChainedAttrsField() {
+        return (
+            <div>
+                <input type="checkbox"
+                       id="useChainedAttrs"
+                       onChange={::this.onChangeUseChainedAttrs}
+                       checked={this.state.useChainedAttrs} />
+                <label htmlFor="useChainedAttrs">Chaining attributes</label>
+            </div>
+        );
+    }
+
+    renderHeaderFooterField() {
+        return (
+            <div>
+                <input type="checkbox"
+                       id="showSourceOutputHeaderFooter"
+                       onChange={::this.onChangeHeaderFooterCheckbox}
+                       checked={this.state.showSourceOutputHeaderFooter} />
+                <label htmlFor="showSourceOutputHeaderFooter">Show header/footer code blocks</label>
+            </div>
+        );
+    }
+
     render() {
         return (
             <Modal
@@ -121,35 +177,17 @@ export class SettingsPopup extends React.Component {
                             <div className={styles['section']}>
                                 <p>Visualisation</p>
                                 <p>
-                                    <input type="checkbox"
-                                           id="showSourceOutputHeaderFooter"
-                                           onChange={::this.onChangeHeaderFooterCheckbox}
-                                           checked={this.state.showSourceOutputHeaderFooter} />
-                                    <label htmlFor="showSourceOutputHeaderFooter">Show header/footer code blocks</label>
+                                    {this.renderHeaderFooterField()}
                                 </p>
                             </div>
                             <div className={styles['section']}>
-                                <p>Web page capture</p>
-                                <div className="row">
-                                    <div className="input-field col s12">
-                                        <input placeholder="Attribute name for capture"
-                                               id="attrNameForCapture"
-                                               type="text"
-                                               className={classnames(
-                                                   {
-                                                       validate: true,
-                                                       invalid: !!this.state.errors.attrNameForCapture
-                                                   }
-                                               )}
-                                               value={this.state.attrNameForCapture}
-                                               onChange={::this.onChangeAttrNameForCapture}
-                                        />
-                                        <label htmlFor="attrNameForCapture" className="active"
-                                               data-error={this.state.errors.attrNameForCapture}>
-                                            Attribute name for capture
-                                        </label>
-                                    </div>
-                                </div>
+                                <p>Web page capture / test output</p>
+                                <p className="row">
+                                    {this.renderAttrNameField()}
+                                </p>
+                                <p>
+                                    {this.renderChainedAttrsField()}
+                                </p>
                             </div>
                             <div className={classnames(styles['modal-footer'], 'right-align')}>
                                 <Button flat onClick={::this.onCancelButtonClick}>Cancel</Button>

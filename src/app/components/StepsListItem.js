@@ -12,7 +12,12 @@ export class StepsListItem extends React.Component {
     static propTypes = {
         stepNumber: React.PropTypes.number.isRequired, // zero based
         record: React.PropTypes.object.isRequired,
+        useChainedAttrs: React.PropTypes.bool,
         deleteStep: React.PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        useChainedAttrs: true
     };
 
     constructor(props, context) {
@@ -40,8 +45,12 @@ export class StepsListItem extends React.Component {
         return JSON.stringify(step.target, undefined, '  ');
     }
 
-    formatBriefLine(step) {
+    formatBriefLine(step, useChainedAttrs) {
         let {data, target} = step;
+
+        if (!useChainedAttrs) {
+            return _.takeRight(target.nodePath, 1)[0];
+        }
 
         let tail = _.takeRight(target.nodePath, 3);
         let head = [];
@@ -66,7 +75,7 @@ export class StepsListItem extends React.Component {
     }
 
     render() {
-        let {record, stepNumber} = this.props;
+        let {record, stepNumber, useChainedAttrs} = this.props;
         let {isExpanded} = this.state;
         let itemClasses = classnames(style['steps-list-item'], {
             [style['is-expanded']]: !!isExpanded,
@@ -88,7 +97,7 @@ export class StepsListItem extends React.Component {
             );
         }
 
-        let briefLine = this.formatBriefLine(record);
+        let briefLine = this.formatBriefLine(record, useChainedAttrs);
         return (
             <div className={itemClasses}>
                 <div className={itemBoxClasses}>

@@ -14,6 +14,7 @@ const initialState = {
         }
     ],
     currentFrameworkId: 'phantomJS',
+    useChainedAttrs: true,
     attrNameForCapture: 'id'
 };
 
@@ -25,13 +26,14 @@ const actionsMap = {
         return {...state, isPopupShown: false};
     },
     [ActionTypes.SAVE_SETTINGS](state, action) {
-        let {currentFrameworkId, showSourceOutputHeaderFooter, attrNameForCapture} = action.data;
+        let {currentFrameworkId, showSourceOutputHeaderFooter, attrNameForCapture, useChainedAttrs} = action.data;
         let nextState = {...state, showSourceOutputHeaderFooter};
 
         let framework = state.availableFrameworks.find(item => item.id === currentFrameworkId);
         if (framework) {
             nextState.currentFrameworkId = currentFrameworkId;
             nextState.attrNameForCapture = attrNameForCapture;
+            nextState.useChainedAttrs = useChainedAttrs;
         }
 
         return nextState;

@@ -9,12 +9,14 @@ export class TestScriptWriter extends React.Component {
     static propTypes = {
         steps: React.PropTypes.array.isRequired,
         attributeName: React.PropTypes.string,
+        useChainedAttrs: React.PropTypes.bool,
         showHeaderFooter: React.PropTypes.bool,
         syntaxHighlight: React.PropTypes.bool
     };
 
     static defaultProps = {
         attributeName: 'id',
+        useChainedAttrs: true,
         showHeaderFooter: true,
         syntaxHighlight: true
     };
@@ -47,7 +49,11 @@ export class TestScriptWriter extends React.Component {
 
     getDOMNodeSelector(step) {
         const attrName = this.props.attributeName;
-        return step.target.nodePath.map(item => {return `*[${attrName}="${item}"]`})
+        let nodePath = this.props.useChainedAttrs
+            ? step.target.nodePath
+            : [step.target.nodePath[step.target.nodePath.length-1]];
+
+        return nodePath.map(item => {return `*[${attrName}="${item}"]`})
             .join(' ');
     }
 
