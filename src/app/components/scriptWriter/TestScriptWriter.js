@@ -8,11 +8,13 @@ import highlightJSStyles from 'highlight.js/styles/github.css';
 export class TestScriptWriter extends React.Component {
     static propTypes = {
         steps: React.PropTypes.array.isRequired,
+        attributeName: React.PropTypes.string,
         showHeaderFooter: React.PropTypes.bool,
         syntaxHighlight: React.PropTypes.bool
     };
 
     static defaultProps = {
+        attributeName: 'id',
         showHeaderFooter: true,
         syntaxHighlight: true
     };
@@ -44,7 +46,7 @@ export class TestScriptWriter extends React.Component {
     }
 
     getDOMNodeSelector(step) {
-        const attrName = 'data-test-automation-id';
+        const attrName = this.props.attributeName;
         return step.target.nodePath.map(item => {return `*[${attrName}="${item}"]`})
             .join(' ');
     }

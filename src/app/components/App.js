@@ -75,6 +75,7 @@ export class App extends React.Component {
                     onClose={uiActions.hideSettingsPopup}
                     availableFrameworks={settings.availableFrameworks}
                     currentFrameworkId={settings.currentFrameworkId}
+                    attrNameForCapture={settings.attrNameForCapture}
                     showSourceOutputHeaderFooter={settings.showSourceOutputHeaderFooter}
                 />
             );
@@ -86,6 +87,7 @@ export class App extends React.Component {
         let {settings, steps} = this.props;
         let props = {
             steps,
+            attributeName: settings.attrNameForCapture,
             showHeaderFooter: settings.showSourceOutputHeaderFooter
         };
 

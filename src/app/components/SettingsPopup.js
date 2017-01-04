@@ -10,6 +10,7 @@ export class SettingsPopup extends React.Component {
         availableFrameworks: React.PropTypes.array.isRequired,
         currentFrameworkId: React.PropTypes.string,
         showSourceOutputHeaderFooter: React.PropTypes.bool,
+        attrNameForCapture: React.PropTypes.string,
         show: React.PropTypes.bool,
         onClose: React.PropTypes.func,
         onSave: React.PropTypes.func
@@ -19,14 +20,17 @@ export class SettingsPopup extends React.Component {
         super(props, context);
         this.state = {
             currentFrameworkId: this.props.currentFrameworkId,
-            showSourceOutputHeaderFooter: this.props.showSourceOutputHeaderFooter
+            showSourceOutputHeaderFooter: this.props.showSourceOutputHeaderFooter,
+            attrNameForCapture: this.props.attrNameForCapture,
+            errors: {}
         };
     }
 
     componentWillMount() {
         this.setState({
             currentFrameworkId: this.props.currentFrameworkId,
-            showSourceOutputHeaderFooter: this.props.showSourceOutputHeaderFooter
+            showSourceOutputHeaderFooter: this.props.showSourceOutputHeaderFooter,
+            attrNameForCapture: this.props.attrNameForCapture
         });
     }
 
@@ -38,13 +42,22 @@ export class SettingsPopup extends React.Component {
         this.setState({showSourceOutputHeaderFooter: e.target.checked});
     }
 
+    onChangeAttrNameForCapture(e) {
+        this.setState({attrNameForCapture: e.target.value});
+    }
+
     onSave(e) {
         e.preventDefault();
-        if (this.props.onSave) {
-            this.props.onSave({
-                currentFrameworkId: this.state.currentFrameworkId,
-                showSourceOutputHeaderFooter: this.state.showSourceOutputHeaderFooter
-            });
+        let data = {
+            currentFrameworkId: this.state.currentFrameworkId,
+            showSourceOutputHeaderFooter: this.state.showSourceOutputHeaderFooter,
+            attrNameForCapture: this.state.attrNameForCapture.trim()
+        };
+
+        let validationResult = this.validateFormData(data);
+        this.setState({errors: validationResult});
+        if (Object.keys(validationResult).length === 0 && this.props.onSave) {
+            this.props.onSave(data);
         }
     }
 
@@ -53,6 +66,15 @@ export class SettingsPopup extends React.Component {
         if (this.props.onClose) {
             this.props.onClose();
         }
+    }
+
+    validateFormData(formData) {
+        let result = {};
+        if (!/^[-_:.a-z0-9]+$/i.test(formData.attrNameForCapture)) {
+            result.attrNameForCapture = 'invalid attribute name';
+        }
+
+        return result;
     }
 
     renderFrameworksList() {
@@ -103,10 +125,32 @@ export class SettingsPopup extends React.Component {
                                            id="showSourceOutputHeaderFooter"
                                            onChange={::this.onChangeHeaderFooterCheckbox}
                                            checked={this.state.showSourceOutputHeaderFooter} />
-                                    <label htmlFor="showSourceOutputHeaderFooter">Show header/footer code</label>
+                                    <label htmlFor="showSourceOutputHeaderFooter">Show header/footer code blocks</label>
                                 </p>
                             </div>
-
+                            <div className={styles['section']}>
+                                <p>Web page capture</p>
+                                <div className="row">
+                                    <div className="input-field col s12">
+                                        <input placeholder="Attribute name for capture"
+                                               id="attrNameForCapture"
+                                               type="text"
+                                               className={classnames(
+                                                   {
+                                                       validate: true,
+                                                       invalid: !!this.state.errors.attrNameForCapture
+                                                   }
+                                               )}
+                                               value={this.state.attrNameForCapture}
+                                               onChange={::this.onChangeAttrNameForCapture}
+                                        />
+                                        <label htmlFor="attrNameForCapture" className="active"
+                                               data-error={this.state.errors.attrNameForCapture}>
+                                            Attribute name for capture
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                             <div className={classnames(styles['modal-footer'], 'right-align')}>
                                 <Button flat onClick={::this.onCancelButtonClick}>Cancel</Button>
                                 <Button type='submit' flat primary>Save</Button>
