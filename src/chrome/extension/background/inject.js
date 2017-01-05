@@ -13,7 +13,7 @@ function loadScript(name, tabId, cb) {
     } else {
         console.log('load dev version');
         // dev: async fetch bundle
-        fetch(`http://localhost:3000/js/${name}.bundle.js`)
+        fetch(`http://localhost:3008/js/${name}.bundle.js`)
             .then(res => res.text())
             .then(fetchRes => {
                 // Load redux-devtools-extension inject bundle,
