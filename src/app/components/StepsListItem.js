@@ -46,7 +46,7 @@ export class StepsListItem extends React.Component {
     }
 
     formatBriefLine(step, useChainedAttrs) {
-        let {data, target} = step;
+        let {target} = step;
 
         if (!useChainedAttrs) {
             return _.takeRight(target.nodePath, 1)[0];
@@ -65,6 +65,19 @@ export class StepsListItem extends React.Component {
         return head.concat(tail).join(', ');
     }
 
+    formatBriefLineHint(step, useChainedAttrs) {
+        let {target} = step;
+
+        let hint;
+        if (useChainedAttrs) {
+            hint = target.nodePath.join(', ');
+        } else {
+            hint = _.takeRight(target.nodePath, 1)[0];
+        }
+
+        return hint;
+    }
+
     formatActionName(actionName) {
         let names = {
             [visitorEvents.CLICK]: 'Click',
@@ -72,6 +85,38 @@ export class StepsListItem extends React.Component {
             [visitorEvents.MUTATE_DROPDOWN]: 'Change dropdown'
         };
         return names[actionName] || actionName;
+    }
+
+    renderStepDataLine(record) {
+        let dataLine = null;
+        if (record.data) {
+            dataLine = (
+                <div className={style['data-line']}>
+                    {this.formatStepData(record)}
+                </div>
+            );
+        }
+
+        return dataLine;
+    }
+
+    renderStepDetails(record) {
+        return (
+            <div className={style['details']}>
+                <h6>Data</h6>
+                <pre>
+                    <code>
+                        {this.formatStepData(record)}
+                    </code>
+                </pre>
+                <h6>Target</h6>
+                <pre>
+                    <code>
+                        {this.formatStepTarget(record)}
+                    </code>
+                </pre>
+            </div>
+        );
     }
 
     render() {
@@ -88,16 +133,9 @@ export class StepsListItem extends React.Component {
             [style['act-edit-dropdown']]: record.visitorAction === visitorEvents.MUTATE_DROPDOWN,
         });
 
-        let dataLine = null;
-        if (record.data) {
-            dataLine = (
-                <div className={style['data-line']}>
-                    {this.formatStepData(record)}
-                </div>
-            );
-        }
 
         let briefLine = this.formatBriefLine(record, useChainedAttrs);
+        let briefLineHint = this.formatBriefLineHint(record, useChainedAttrs);
         return (
             <div className={itemClasses}>
                 <div className={itemBoxClasses}>
@@ -110,25 +148,12 @@ export class StepsListItem extends React.Component {
                                 <span className={style['text-primary']}>
                                     {this.formatActionName(record.visitorAction)}&nbsp;
                                 </span>
-                                <span className={style['text-secondary']} title={briefLine}>
+                                <span className={style['text-secondary']} title={briefLineHint}>
                                     {briefLine}
                                 </span>
                             </div>
-                            {dataLine}
-                            <div className={style['details']}>
-                                <h6>Data</h6>
-                                <pre>
-                                    <code>
-                                        {this.formatStepData(record)}
-                                    </code>
-                                </pre>
-                                <h6>Target</h6>
-                                <pre>
-                                    <code>
-                                        {this.formatStepTarget(record)}
-                                    </code>
-                                </pre>
-                            </div>
+                            {this.renderStepDataLine(record)}
+                            {this.renderStepDetails(record)}
                         </Col>
                         <Col xs={2}>
                             <div className={classnames(style['actions-box'], 'right-align')}>
