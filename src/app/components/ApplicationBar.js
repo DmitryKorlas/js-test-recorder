@@ -25,7 +25,7 @@ export class ApplicationBar extends React.Component {
                     </span>
 
                     <ul className="right ">
-                        <li className="hide-on-med-and-down">version 1.0</li>
+                        <li className="hide-on-med-and-down">version 1.0.1</li>
                         <li>{this.renderSettingsLink()}</li>
                     </ul>
                 </div>
