@@ -6,6 +6,11 @@ const port = 3008;
 const customPath = path.join(__dirname, './customPublicPath');
 const hotScript = 'webpack-hot-middleware/client?path=__webpack_hmr&dynamicPublicPath=true';
 
+// fix for windows OS. it can't work with relative paths
+function fixPath(listPaths) {
+    return listPaths.map(item => path.resolve(__dirname, item));
+}
+
 const baseDevConfig = () => ({
     devtool: 'eval-cheap-module-source-map',
     entry: {
@@ -44,26 +49,26 @@ const baseDevConfig = () => ({
     },
     module: {
         loaders: [{
-                test: /\.js$/,
-                loader: 'babel',
-                exclude: /node_modules/,
-                query: {
-                    presets: ['react-hmre']
-                }
-            },
+            test: /\.js$/,
+            loader: 'babel',
+            exclude: /node_modules/,
+            query: {
+                presets: ['react-hmre']
+            }
+        },
             {
                 test: /(\.css|\.scss)$/,
-                include: /(node_modules\/(materialize-css|mdi))/,
+                include: fixPath(['../node_modules/materialize-css/', '../node_modules/mdi/']),
                 loader: 'style!css?sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?sourceMap'
             },
             {
                 test: /\.(jpe?g|png|gif|svg|eot|woff|ttf|svg|woff2)(\?[a-z0-9=\.]+)?$/,
-                include: /(node_modules\/(materialize-css|mdi))/,
+                include: fixPath(['../node_modules/materialize-css', '../node_modules/mdi']),
                 loader: 'url-loader?limit=100000'
             },
             {
                 test: /\.css$/,
-                include: /(node_modules\/highlight\.js)/,
+                include: fixPath(['../node_modules/highlight.js']),
                 loaders: [
                     'style',
                     'css?sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
@@ -71,7 +76,7 @@ const baseDevConfig = () => ({
             },
             {
                 test: /\.p?css$/,
-                exclude: /(node_modules\/highlight\.js)/,
+                exclude: fixPath(['../node_modules/highlight.js']),
                 loaders: [
                     'style',
                     'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
