@@ -1,6 +1,6 @@
 {
   "name": "js-test-recorder",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Chrome extension for automation of development of automated web tests",
   "main": "index.js",
   "scripts": {
